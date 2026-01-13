@@ -12,10 +12,10 @@ export class UsersService {
         private userModel: typeof User,
     ) { }
 
-    async findOne(username: string, password: string) {
+    async findOne(name: string, password: string) {
         return this.userModel.findOne({
             where: {
-                username: username , password: password
+                name: name , password: password
             }
         })
     }
@@ -24,11 +24,10 @@ export class UsersService {
         const pass = createUserDto.password
         const hash = await bcrypt.hash(pass, 10)
         const newUser = {
-            userId: this.userModel.length + 1,
-            username: createUserDto.username,
+            name: createUserDto.name,
             email: createUserDto.email,
             password: hash,
-            roles: createUserDto.roles,
+            role: createUserDto.role,
         }
         this.userModel.create(newUser)
         return newUser

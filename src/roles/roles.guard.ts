@@ -12,7 +12,7 @@ export class CreateUserRoleGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const body = request.body;
 
-    if (body.roles !== Role.comander) {
+    if (body.role !== Role.comander) {
       throw new ForbiddenException('Only comander can be created');
     }
 

@@ -6,9 +6,25 @@ import { UsersModule } from './users/users.module';
 import { ShiftsModule } from './shifts/shifts.module';
 import { AssignmentsModule } from './assignments/assignments.module';
 import { ConfigModule } from '@nestjs/config'
+import { SequelizeModule } from '@nestjs/sequelize'
+import { User } from './users/users.model';
+
 
 @Module({
-  imports: [ConfigModule.forRoot(), AuthModule, UsersModule, ShiftsModule, AssignmentsModule],
+  imports: [ConfigModule.forRoot(),SequelizeModule.forRoot({
+      dialect: 'mysql',
+      host: 'localhost',
+      port: 3306,
+      username: 'root',
+      password: 'rootpass123',
+      logging:false,
+      database: 'military',
+      models: [User],
+      autoLoadModels: true,
+      synchronize: true,
+    }), AuthModule, UsersModule, ShiftsModule, AssignmentsModule,
+      
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

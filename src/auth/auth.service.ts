@@ -11,7 +11,7 @@ export class AuthService {
     ) { }
 
     async login(username: string, pass: string) {
-        const user = await this.usersService.findOne(username)
+        const user = await this.usersService.findOne(username, pass)
         console.log(user);
         
         if (user?.password !== pass) {

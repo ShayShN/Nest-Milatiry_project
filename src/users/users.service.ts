@@ -1,50 +1,36 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
+import { InjectModel } from '@nestjs/sequelize';
+import { User } from './users.model';
 import * as bcrypt from 'bcrypt'
 
 
-export type User = {
-    userId: number,
-    username: string,
-    email: string,
-    password: string,
-    roles: string
-}
-
 @Injectable()
 export class UsersService {
-    private readonly users = [
-        {
-            userId: 1,
-            username: "shay",
-            email: "shayshn@",
-            password: "1997",
-            roles: "comander"
-        },
-        {
-            userId: 2,
-            username: "yosef",
-            email: "yosef@",
-            password: "12345",
-            roles: "solider"
-        },
-    ]
-    async findOne(username: string): Promise<User | undefined> {
-        return this.users.find(user => user.username === username)
+    constructor(
+        @InjectModel(User)
+        private userModel: typeof User,
+    ) { }
+
+    async findOne(username: string, password: string) {
+        return this.userModel.findOne({
+            where: {
+                username: username , password: password
+            }
+        })
     }
 
-
-    async register(createUserDto: CreateUserDto): Promise<User> {
+    async register(createUserDto: CreateUserDto) {
         const pass = createUserDto.password
         const hash = await bcrypt.hash(pass, 10)
-        const newUser: User = {
-            userId: this.users.length + 1,
+        const newUser = {
+            userId: this.userModel.length + 1,
             username: createUserDto.username,
             email: createUserDto.email,
             password: hash,
             roles: createUserDto.roles,
         }
-        this.users.push(newUser);
+        this.userModel.create(newUser)
         return newUser
     }
 }

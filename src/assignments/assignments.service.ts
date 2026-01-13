@@ -2,6 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { CreateAssignmentDto } from './dto/create-assignment.dto';
 import { UpdateAssignmentDto } from './dto/update-assignment.dto';
 
+
+export type Assignment = {
+    id: number,
+    userId: number,
+    shiftId: string
+}
+
 @Injectable()
 export class AssignmentsService {
   create(createAssignmentDto: CreateAssignmentDto) {

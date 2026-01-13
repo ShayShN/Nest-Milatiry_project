@@ -34,12 +34,14 @@ export class UsersService {
     }
 
 
-    register(createUserDto: CreateUserDto): User {
+    async register(createUserDto: CreateUserDto): Promise<User> {
+        const pass = createUserDto.password
+        const hash = await bcrypt.hash(pass, 10)
         const newUser: User = {
             userId: this.users.length + 1,
             username: createUserDto.username,
             email: createUserDto.email,
-            password: createUserDto.password,
+            password: hash,
             roles: createUserDto.roles,
         }
         this.users.push(newUser);

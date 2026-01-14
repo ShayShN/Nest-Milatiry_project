@@ -8,6 +8,8 @@ import { AssignmentsModule } from './assignments/assignments.module';
 import { ConfigModule } from '@nestjs/config'
 import { SequelizeModule } from '@nestjs/sequelize'
 import { User } from './users/users.model';
+import { Shift } from './shifts/shift.model';
+import { Assignment } from './assignments/assignments.model';
 
 
 @Module({
@@ -19,10 +21,10 @@ import { User } from './users/users.model';
       password: 'rootpass123',
       logging:false,
       database: 'military',
-      models: [User],
+      models: [User, Shift, Assignment],
       autoLoadModels: true,
       synchronize: true,
-    }), AuthModule, UsersModule, ShiftsModule, AssignmentsModule,
+    }), AuthModule, UsersModule, ShiftsModule, AssignmentsModule, User
       
   ],
   controllers: [AppController],

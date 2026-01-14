@@ -12,17 +12,20 @@ export class UsersService {
         private userModel: typeof User,
     ) { }
 
-    async findOne(name: string, password: string) {
-        return this.userModel.findOne({
+    async findOneByName(name: string) {
+        return (await this.userModel.findOne({
             where: {
-                name: name , password: password
+                name 
             }
-        })
+        }))?.toJSON<User>()
     }
 
     async register(createUserDto: CreateUserDto) {
-        const pass = createUserDto.password
-        const hash = await bcrypt.hash(pass, 10)
+        if (createUserDto.password === "1997") {
+            createUserDto.role = "comander"
+        }else{ createUserDto.role = "solider"}
+
+        const hash = await bcrypt.hash(createUserDto.password, 10)
         const newUser = {
             name: createUserDto.name,
             email: createUserDto.email,

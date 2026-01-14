@@ -4,13 +4,6 @@ import { Column, Model, Table, PrimaryKey, AutoIncrement, DataType } from 'seque
 @Table
 export class User extends Model {
 
-    @PrimaryKey
-    @AutoIncrement
-    @Column({
-        type: DataType.INTEGER
-    })
-
-
     @Column({
         type: DataType.STRING,
         allowNull: false

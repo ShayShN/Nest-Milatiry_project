@@ -1,33 +1,37 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAssignmentDto } from './dto/create-assignment.dto';
-import { UpdateAssignmentDto } from './dto/update-assignment.dto';
+import { Assignment } from './assignments.model';
+import { InjectModel } from '@nestjs/sequelize';
+import { RoleGuard } from 'src/roles/roles.guard';
 
-
-export type Assignment = {
-    id: number,
-    userId: number,
-    shiftId: string
-}
 
 @Injectable()
 export class AssignmentsService {
-  create(createAssignmentDto: CreateAssignmentDto) {
-    return 'This action adds a new assignment';
+   constructor( 
+          @InjectModel(Assignment)
+          private assignment: typeof Assignment
+       ) {}
+
+  async create(createAssignmentDto: CreateAssignmentDto) {
+    
+    const newAsignment = {
+      userId: createAssignmentDto.userId,
+      shiftId: createAssignmentDto.shiftId
+    }
+    await this.assignment.create(newAsignment)
+    return newAsignment
   }
 
   findAll() {
-    return `This action returns all assignments`;
+    return this.assignment.findAll();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} assignment`;
+  async findOne(id: number) {
+    return this.assignment.findOne({
+      where: {
+        id: id
+      }
+    })
   }
 
-  update(id: number, updateAssignmentDto: UpdateAssignmentDto) {
-    return `This action updates a #${id} assignment`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} assignment`;
-  }
 }

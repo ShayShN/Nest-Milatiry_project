@@ -1,20 +1,22 @@
-import { Column, Model, Table } from 'sequelize-typescript';
+import { Column, DataType, Model, Table } from 'sequelize-typescript';
 
 @Table
-export class User extends Model {
+export class Shift extends Model {
 
-    @Column
-    Id: number
-    
-    @Column
-    startTime: Date
+    @Column({
+        type: DataType.STRING
+    })
+    startTime: string
 
-    @Column
-    endTime: Date
+    @Column({
+        type: DataType.STRING
+    })
+    endTime: string
 
-    @Column
+    @Column({
+        type: DataType.STRING
+    })
     location: string
 
 }
- 
-    
+

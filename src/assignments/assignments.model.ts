@@ -1,20 +1,21 @@
-import { Column, Model, Table } from 'sequelize-typescript';
+import { Column, DataType, Model, Table } from 'sequelize-typescript';
 
 @Table
-export class User extends Model {
+export class Assignment extends Model {
 
-    @Column
-    Id: number
-    
-    @Column
+
+    @Column({
+        type: DataType.INTEGER
+    })
     userId: number
 
-    @Column
+    @Column({
+        type: DataType.STRING
+    })
     shiftId: string
 
 }
- 
 
-    
-    
-    
+
+
+

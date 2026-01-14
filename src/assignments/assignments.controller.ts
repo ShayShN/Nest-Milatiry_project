@@ -1,13 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, UseGuards } from '@nestjs/common';
 import { AssignmentsService } from './assignments.service';
 import { CreateAssignmentDto } from './dto/create-assignment.dto';
-import { UpdateAssignmentDto } from './dto/update-assignment.dto';
+import { RoleGuard } from 'src/roles/roles.guard';
+import { Role } from 'src/roles/role.enum';
+import { Roles } from 'src/roles/roles.decorator';
 
 @Controller('assignments')
 export class AssignmentsController {
-  constructor(private readonly assignmentsService: AssignmentsService) {}
+  constructor(private readonly assignmentsService: AssignmentsService) { }
 
   @Post()
+  @UseGuards(RoleGuard)
+  // @Roles(Role.solider)
   create(@Body() createAssignmentDto: CreateAssignmentDto) {
     return this.assignmentsService.create(createAssignmentDto);
   }
@@ -18,17 +22,7 @@ export class AssignmentsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: number) {
     return this.assignmentsService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAssignmentDto: UpdateAssignmentDto) {
-    return this.assignmentsService.update(+id, updateAssignmentDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.assignmentsService.remove(+id);
   }
 }
